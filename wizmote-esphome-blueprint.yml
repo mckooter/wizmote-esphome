@@ -1,5 +1,5 @@
 blueprint:
-  name: ESPHome Wizmote Receiver
+  name: McKooter ESPHome Wizmote Receiver
   domain: automation
   source_url: https://github.com/jesserockz/wizmote-esphome/blob/main/wizmote-esphome-blueprint.yml
   input:
