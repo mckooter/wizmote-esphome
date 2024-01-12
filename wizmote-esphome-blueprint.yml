@@ -105,22 +105,22 @@ action:
                 - service: scene.turn_on
                   target: "{{ night_button }}"
             - conditions:
-                - "{{ wait.trigger.event.data.button | int == 8 }}"
+                - "{{ wait.trigger.event.data.button | int == 4 }}"
               sequence:
                 - service: scene.turn_on
                   target: "{{ light_one }}"
             - conditions:
-                - "{{ wait.trigger.event.data.button | int == 9 }}"
+                - "{{ wait.trigger.event.data.button | int == 5 }}"
               sequence:
                 - service: scene.turn_on
                   target: "{{ light_two }}"                                    
             - conditions:
-                - "{{ wait.trigger.event.data.button | int == 10 }}"
+                - "{{ wait.trigger.event.data.button | int == 6 }}"
               sequence:
                 - service: scene.turn_on
                   target: "{{ light_three }}"
             - conditions:
-                - "{{ wait.trigger.event.data.button | int == 11 }}"
+                - "{{ wait.trigger.event.data.button | int == 7 }}"
               sequence:
                 - service: scene.turn_on
                   target: "{{ light_four }}"     
