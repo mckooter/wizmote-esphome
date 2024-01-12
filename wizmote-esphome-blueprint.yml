@@ -132,13 +132,3 @@ action:
               sequence:
                 - service: scene.turn_on
                   target: "{{ light_four }}"     
-            - conditions:
-                - "{{ wait.trigger.event.data.button | int == 8 }}"
-              sequence:
-                - service: media_player.volume_up
-                  target: "{{ speaker_control }}"     
-            - conditions:
-                - "{{ wait.trigger.event.data.button | int == 9 }}"
-              sequence:
-                - service: media_player.volume_down
-                  target: "{{ speaker_control }}"     
