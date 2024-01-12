@@ -59,6 +59,13 @@ blueprint:
         target:
           entity:
             domain: scene
+    speaker:
+      name: Volume Control
+      description: The speaker to control with the volume buttons
+      selector:
+        target:
+          entity:
+            domain: media_player
 mode: restart
 
 trigger:
@@ -73,6 +80,7 @@ action:
       on_button: !input on_button
       off_button: !input off_button
       night_button: !input night_button
+      speaker_control: !input speaker
       light_one: !input light_one
       light_two: !input light_two
       light_three: !input light_three
