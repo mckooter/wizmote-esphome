@@ -2,6 +2,8 @@
 
 A pair of simple ESPHome components to receive button presses from the WizMote.
 
+## Modifications for controlling scenes and a speaker with brightness buttons, incomplete and not functional - mckooter
+
 ## What is the WizMote?
 
 The WizMote is a Wi-Fi enabled remote controller from Wiz that uses ESP-NOW to control their own branded light bulbs and switches etc.
@@ -12,7 +14,7 @@ This repo will allow you to use an ESP running ESPHome to "intercept" the WizMot
 
 This repo also contains a blueprint for a Home Assistant automation which allows setting up any 4 lights in Home Assistant to be controlled by the WizMote.
 
-[![Open your Home Assistant instance and show the blueprint import dialog with a specific blueprint pre-filled.](https://my.home-assistant.io/badges/blueprint_import.svg)](https://my.home-assistant.io/redirect/blueprint_import/?blueprint_url=https%3A%2F%2Fgithub.com%2Fjesserockz%2Fwizmote-esphome%2Fblob%2Fmain%2Fwizmote-esphome-blueprint.yml)
+[![Open your Home Assistant instance and show the blueprint import dialog with a specific blueprint pre-filled.](https://my.home-assistant.io/badges/blueprint_import.svg)](https://my.home-assistant.io/redirect/blueprint_import/?blueprint_url=https%3A%2F%2Fgithub.com%2Fmckooter%2Fwizmote-esphome%2Fblob%2Fmain%2Fwizmote-esphome-blueprint.yml)
 
 ### ESPHome configuration snippet
 Insert this code after your Core Configuration:
