@@ -135,14 +135,10 @@ action:
             - conditions:
                 - "{{ wait.trigger.event.data.button | int == 8 }}"
               sequence:
-                - service: media_player.volume_set
+                - service: media_player.volume_up
                   target: "{{ speaker_control }}"     
-                  data_template:
-                    volume_level: '{{ states.media_player.{{ speaker_control }}.attributes.volume_level - 5 }}'
             - conditions:
                 - "{{ wait.trigger.event.data.button | int == 9 }}"
               sequence:
-                - service: media_player.volume_set
+                - service: media_player.volume_down
                   target: "{{ speaker_control }}"     
-                  data_template:
-                    volume_level: '{{ states.media_player.{{ speaker_control }}.attributes.volume_level + 5 }}'
