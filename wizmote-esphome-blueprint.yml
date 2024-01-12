@@ -10,49 +10,62 @@ blueprint:
         as you press a button.
       selector:
         text:
-    brightness_dim:
-      name: Brightness when moon button pressed
+    on_button:
+      name: On Button
+      description: The scene to trigger after pressing the on button
       selector:
-        number:
-          min: 1
-          max: 100
-          unit_of_measurement: "%"
-    brightness_step:
-      name: Brightness step when pressing or holding dimmer buttons
+        target:
+          entity:
+            domain: scene
+    off_button:
+      name: Off Button
+      description: The scene to trigger after pressing the off button
       selector:
-        number:
-          min: 1
-          max: 50
-          unit_of_measurement: "%"
+        target:
+          entity:
+            domain: scene            
+    night_button:
+      name: Night Button
+      description: The scene to trigger after pressing the night button
+      selector:
+        target:
+          entity:
+            domain: scene     
     light_one:
       name: Light 1
       description: The light to control after pressing 1
       selector:
         target:
           entity:
-            domain: light
+            domain: scene
     light_two:
       name: Light 2
       description: The light to control after pressing 2
       selector:
         target:
           entity:
-            domain: light
+            domain: scene
     light_three:
       name: Light 3
       description: The light to control after pressing 3
       selector:
         target:
           entity:
-            domain: light
+            domain: scene
     light_four:
       name: Light 4
       description: The light to control after pressing 4
       selector:
         target:
           entity:
-            domain: light
-
+            domain: scene
+    speaker:
+      name: Volume Control
+      description: The speaker to control with the volume buttons
+      selector:
+        target:
+          entity:
+            domain: media_player
 mode: restart
 
 trigger:
@@ -64,20 +77,14 @@ trigger:
 action:
   - variables:
       button: "{{ trigger.event.data.button | int }}"
-      brightness_step: !input brightness_step
+      on_button: !input on_button
+      off_button: !input off_button
+      night_button: !input night_button
+      speaker_control: !input speaker
       light_one: !input light_one
       light_two: !input light_two
       light_three: !input light_three
       light_four: !input light_four
-      light: "\n{% if button == 1 %}\n \
-        \ {{ light_one }}\n \
-        \ {% elif button == 2 %}\n \
-        \ {{ light_two }}\n \
-        \ {% elif button == 3 %}\n \
-        \ {{ light_three }}\n \
-        \ {% elif button == 4 %}\n \
-        \ {{ light_four }}\n \
-        \ {% endif %}\n"
   - repeat:
       until:
         - "{{ wait.trigger == none }}"
@@ -93,31 +100,49 @@ action:
             - conditions:
                 - "{{ wait.trigger.event.data.button | int == 1 }}"
               sequence:
-                - service: light.turn_on
-                  target: "{{ light }}"
+                - service: scene.turn_on
+                  target: "{{ on_button }}"
             - conditions:
                 - "{{ wait.trigger.event.data.button | int == 2 }}"
               sequence:
-                - service: light.turn_off
-                  target: "{{ light }}"
+                - service: scene.turn_on
+                  target: "{{ off_button }}"
             - conditions:
                 - "{{ wait.trigger.event.data.button | int == 3 }}"
               sequence:
-                - service: light.turn_on
-                  target: "{{ light }}"
-                  data:
-                    brightness_pct: !input brightness_dim
+                - service: scene.turn_on
+                  target: "{{ night_button }}"
+            - conditions:
+                - "{{ wait.trigger.event.data.button | int == 4 }}"
+              sequence:
+                - service: scene.turn_on
+                  target: "{{ light_one }}"
+            - conditions:
+                - "{{ wait.trigger.event.data.button | int == 5 }}"
+              sequence:
+                - service: scene.turn_on
+                  target: "{{ light_two }}"                                    
+            - conditions:
+                - "{{ wait.trigger.event.data.button | int == 6 }}"
+              sequence:
+                - service: scene.turn_on
+                  target: "{{ light_three }}"
+            - conditions:
+                - "{{ wait.trigger.event.data.button | int == 7 }}"
+              sequence:
+                - service: scene.turn_on
+                  target: "{{ light_four }}"     
             - conditions:
                 - "{{ wait.trigger.event.data.button | int == 8 }}"
               sequence:
-                - service: light.turn_on
-                  target: "{{ light }}"
-                  data:
-                    brightness_step_pct: "-{{ brightness_step }}"
+                - service: media_player.volume_set
+                  target: "{{ speaker_control }}"     
+                  data_template:
+                    volume_level: '{{ states.media_player.{{ speaker_control }}.attributes.volume_level - 5 }}'
             - conditions:
                 - "{{ wait.trigger.event.data.button | int == 9 }}"
               sequence:
-                - service: light.turn_on
-                  target: "{{ light }}"
-                  data:
-                    brightness_step_pct: "{{ brightness_step }}"
+                - service: media_player.volume_set
+                  target: "{{ speaker_control }}"     
+                  data_template:
+                    volume_level: '{{ states.media_player.{{ speaker_control }}.attributes.volume_level + 5 }}'
